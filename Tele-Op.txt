@@ -1,0 +1,81 @@
+#include "robot-config.h"
+#include "math.h"          
+int rightspeed;
+int leftspeed;
+int intake_speed;
+
+int main() {
+    //auton
+
+    while(true)
+    {
+        if(Controller1.Axis2.value() < 10 && Controller1.Axis2.value() > -10) //deadzone
+        {
+            rightspeed = 0;  
+        }
+        else
+        {
+            rightspeed = Controller1.Axis2.value(); 
+        }
+        if(Controller1.Axis3.value() < 10 && Controller1.Axis3.value() > -10) //deadzone
+        {
+            leftspeed = 0;  
+        }
+        else
+        {
+            leftspeed = Controller1.Axis3.value(); 
+        }
+        
+        RightFrontMotor.spin(vex::directionType::fwd,rightspeed, vex::velocityUnits::pct);
+        RightRearMotor.spin(vex::directionType::fwd,rightspeed, vex::velocityUnits::pct);
+        LeftFrontMotor.spin(vex::directionType::fwd,leftspeed, vex::velocityUnits::pct);
+        LeftRearMotor.spin(vex::directionType::fwd,leftspeed, vex::velocityUnits::pct);
+        
+        if(Controller1.ButtonR1.pressing())
+        {
+            
+            IntakeLeft.spin(vex::directionType::fwd, intake_speed, vex::velocityUnits::pct);
+            IntakeRight.spin(vex::directionType::fwd, intake_speed, vex::velocityUnits::pct);
+            
+        }
+        else if(Controller1.ButtonR2.pressing())
+        {
+            
+            IntakeLeft.spin(vex::directionType::rev, intake_speed, vex::velocityUnits::pct);
+            IntakeRight.spin(vex::directionType::rev, intake_speed, vex::velocityUnits::pct);
+            
+        }
+        else
+        {
+            
+            IntakeLeft.stop();
+            IntakeRight.stop();
+            
+        }
+        
+        if(Controller1.ButtonL1.pressing())
+        {
+            
+            Tilt.spin(vex::directionType::fwd, intake_speed, vex::velocityUnits::pct);
+            
+            
+        }
+        else if(Controller1.ButtonL2.pressing())
+        {
+            
+            Tilt.spin(vex::directionType::rev, intake_speed, vex::velocityUnits::pct);
+            
+            
+        }
+        else
+        {
+           
+            Tilt.stop();
+                      
+        }
+                
+        
+    }    
+  
+            
+}
